@@ -48,6 +48,6 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: ./src/
-          file: ./src/Sanduba.Payment.MercadoPago/Sanduba.Cloud.Function.MercadoPago/Dockerfile
+          file: ./src/Sanduba.Admin/Sanduba.Api/Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
