@@ -2,7 +2,7 @@ name: Push to DockerHub
 
 on: 
   workflow_run:
-    workflows: ["code-analysis"]
+    workflows: ['code-analysis']
     types:
       - completed
   workflow_dispatch:
@@ -47,7 +47,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: ./src/
+          context: ./src/Sanduba.Admin/
           file: ./src/Sanduba.Admin/Sanduba.Api/Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
