@@ -17,14 +17,14 @@ ENV ASPNETCORE_ProductBrokerSettings__ConnectionStrings=default
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["Sanduba.Admin/Sanduba.API/Sanduba.API.csproj", "Sanduba.Admin/Sanduba.API/"]
+COPY ["Sanduba.Admin/Sanduba.Api/Sanduba.API.csproj", "Sanduba.Admin/Sanduba.Api/"]
+COPY ["Sanduba.Admin/Sanduba.Adapter.Mvc/Sanduba.Adapter.Mvc.csproj", "Sanduba.Admin/Sanduba.Adapter.Mvc/"]
 COPY ["Sanduba.Admin/Sanduba.Core.Application/Sanduba.Core.Application.csproj", "Sanduba.Admin/Sanduba.Core.Application/"]
 COPY ["Sanduba.Admin/Sanduba.Core.Application.Abstraction/Sanduba.Core.Application.Abstraction.csproj", "Sanduba.Admin/Sanduba.Core.Application.Abstraction/"]
 COPY ["Sanduba.Admin/Sanduba.Core.Domain/Sanduba.Core.Domain.csproj", "Sanduba.Admin/Sanduba.Core.Domain/"]
-COPY ["Sanduba.Admin/Sanduba.Adapter.Mvc/Sanduba.Adapter.Mvc.csproj", "Sanduba.Admin/Sanduba.Adapter.Mvc/"]
 COPY ["Sanduba.Admin/Sanduba.Infrastructure.Broker.ServiceBus/Sanduba.Infrastructure.Broker.ServiceBus.csproj", "Sanduba.Admin/Sanduba.Infrastructure.Broker.ServiceBus/"]
 COPY ["Sanduba.Admin/Sanduba.Infrastructure.Persistence.SqlServer/Sanduba.Infrastructure.Persistence.SqlServer.csproj", "Sanduba.Admin/Sanduba.Infrastructure.Persistence.SqlServer/"]
-RUN dotnet restore "./Sanduba.Admin/Sanduba.API/Sanduba.API.csproj"
+RUN dotnet restore "./Sanduba.Admin/Sanduba.Api/Sanduba.API.csproj"
 COPY . .
 WORKDIR "/src/Sanduba.Admin/Sanduba.Api"
 RUN dotnet build "./Sanduba.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
