@@ -21,7 +21,7 @@ jobs:
           dotnet-version: 8.0.x
 
       - name: Lint .NET
-        run: dotnet format ./src/Sanduba.Payment.MercadoPago/Sanduba.Financial.MercadoPago.sln --verify-no-changes --verbosity diagnostic 
+        run: dotnet format ./src/Sanduba.Admin/Sanduba.Admin.sln --verify-no-changes --verbosity diagnostic 
 
   test:
     name: Code Test
