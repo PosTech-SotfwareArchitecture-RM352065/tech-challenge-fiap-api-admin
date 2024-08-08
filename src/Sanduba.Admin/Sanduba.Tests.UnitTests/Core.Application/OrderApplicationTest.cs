@@ -4,6 +4,12 @@ namespace Sanduba.Tests.UnitTests.Core.Application
 {
     public class OrderApplicationTest
     {
+
+        [Fact]
+        public void Test()
+        {
+
+        }
         //// add tests here 
         //public OrderApplicationTest()
         //{
