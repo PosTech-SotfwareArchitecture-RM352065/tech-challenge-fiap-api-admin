@@ -47,7 +47,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: ./src/Sanduba.Admin/
+          context: ./src/
           file: ./src/Sanduba.Admin/Sanduba.Api/Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
