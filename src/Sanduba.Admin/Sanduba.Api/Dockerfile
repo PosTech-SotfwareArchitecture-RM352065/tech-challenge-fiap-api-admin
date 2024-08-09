@@ -9,10 +9,10 @@ ENV ASPNETCORE_URLS=http://+:8080
 ENV ASPNETCORE_ENVIRONMENT=Development
 ENV ASPNETCORE_ConnectionStrings__AdminDatabase__Value=default
 ENV ASPNETCORE_ConnectionStrings__AdminDatabase__Type=default
-ENV ASPNETCORE_CustomerBrokerSettings__ConnectionStrings=default
+ENV ASPNETCORE_CustomerBrokerSettings__ConnectionString=default
 ENV ASPNETCORE_CustomerBrokerSettings__TopicName=default
 ENV ASPNETCORE_CustomerBrokerSettings__SubscriptionName=default
-ENV ASPNETCORE_ProductBrokerSettings__ConnectionStrings=default
+ENV ASPNETCORE_ProductBrokerSettings__ConnectionString=default
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release

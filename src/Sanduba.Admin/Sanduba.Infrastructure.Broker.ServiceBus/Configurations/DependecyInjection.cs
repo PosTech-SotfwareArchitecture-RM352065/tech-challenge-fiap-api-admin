@@ -31,11 +31,11 @@ namespace Sanduba.Infrastructure.Broker.ServiceBus.Configurations
 
                 options.UsingAzureServiceBus((context, config) =>
                 {
-                    config.Host(configuration["BrokerSettings:CustomerConnectionString"]);
+                    config.Host(configuration["CustomerBrokerSettings:ConnectionStrings"]);
 
                     config.SubscriptionEndpoint(
-                        configuration["BrokerSettings:CustomerSubscriptionName"],
-                        configuration["BrokerSettings:CustomerTopicName"],
+                        configuration["CustomerBrokerSettings:SubscriptionName"],
+                        configuration["CustomerBrokerSettings:TopicName"],
                         e =>
                         {
                             e.UseMessageRetry(r => r.Interval(2, 10));
