@@ -44,7 +44,7 @@ namespace Sanduba.Infrastructure.Broker.ServiceBus.Configurations
 
                     config.Message<InactivationRequestCompletedEvent>(x =>
                     {
-                        x.SetEntityName(configuration["BrokerSettings:CustomerTopicName"]);
+                        x.SetEntityName(configuration["CustomerBrokerSettings:TopicName"]);
                     });
 
                     services.AddMassTransitHostedService();

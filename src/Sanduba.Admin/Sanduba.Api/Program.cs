@@ -31,7 +31,7 @@ namespace Sanduba.API
 
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-            //builder.Services.AddHealthChecks()
+            builder.Services.AddHealthChecks();
             //    .AddDatabaseHealthChecks(builder.Configuration)
             //    .AddBrokerHealthChecks(builder.Configuration);
 
