@@ -31,17 +31,17 @@ namespace Sanduba.API
 
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-            builder.Services.AddHealthChecks()
-                .AddDatabaseHealthChecks(builder.Configuration)
-                .AddBrokerHealthChecks(builder.Configuration);
+            //builder.Services.AddHealthChecks()
+            //    .AddDatabaseHealthChecks(builder.Configuration)
+            //    .AddBrokerHealthChecks(builder.Configuration);
 
-            builder.Services.AddHealthChecksUI(options =>
-            {
-                options.SetEvaluationTimeInSeconds(15);
-                options.MaximumHistoryEntriesPerEndpoint(60);
-                options.SetApiMaxActiveRequests(1);
+            //builder.Services.AddHealthChecksUI(options =>
+            //{
+            //    options.SetEvaluationTimeInSeconds(15);
+            //    options.MaximumHistoryEntriesPerEndpoint(60);
+            //    options.SetApiMaxActiveRequests(1);
 
-            }).AddInMemoryStorage();
+            //}).AddInMemoryStorage();
 
             builder.Services.AddControllers()
                 .ConfigureApiBehaviorOptions(options =>
@@ -87,16 +87,16 @@ namespace Sanduba.API
 
             });
 
-            app.UseHealthChecks("/health", new HealthCheckOptions
-            {
-                Predicate = _ => true
-            })
-            .UseHealthChecks("/healthz", new HealthCheckOptions
-            {
-                Predicate = _ => true,
-                ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-            })
-            .UseHealthChecksUI(options => options.UIPath = "/healthz-ui");
+            //app.UseHealthChecks("/health", new HealthCheckOptions
+            //{
+            //    Predicate = _ => true
+            //})
+            //.UseHealthChecks("/healthz", new HealthCheckOptions
+            //{
+            //    Predicate = _ => true,
+            //    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+            //})
+            //.UseHealthChecksUI(options => options.UIPath = "/healthz-ui");
 
             app.UseSerilogRequestLogging();
 
