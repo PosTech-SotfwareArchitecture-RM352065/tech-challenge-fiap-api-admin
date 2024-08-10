@@ -52,28 +52,28 @@ namespace Sanduba.Infrastructure.Broker.ServiceBus.Configurations
 
             });
 
-            //services.AddMassTransit(options =>
-            //{
-            //    options.AddConsumer<CustomerNotificationBroker>();
-            //    options.AddConsumer<OrderNotificationBroker>();
+            services.AddMassTransit(options =>
+            {
+                options.AddConsumer<OrderNotificationBroker>();
+            
+                options.UsingAzureServiceBus((context, config) =>
+                {
+                    config.Host(configuration["OrderBrokerSettings:ConnectionString"]);
+            
+                    config.SubscriptionEndpoint<InactivationRequestedEvent>(
+                        configuration["OrderBrokerSettings:OrderSubscriptionName"], e => {
+                            e.ConfigureConsumer<CustomerNotificationBroker>(context);
+                        });
 
-            //    options.UsingAzureServiceBus((context, config) =>
-            //    {
-            //        config.Host(configuration["BrokerSettings:ProductConnectionString"]);
+                    config.Message<InactivationRequestCompletedEvent>(x =>
+                    {
+                        x.SetEntityName(configuration["OrderBrokerSettings:TopicName"]);
+                    });
 
-            //        config.SubscriptionEndpoint<InactivationRequestedEvent>(
-            //            configuration["BrokerSettings:CustomerSubscriptionName"], e => {
-            //                e.ConfigureConsumer<CustomerNotificationBroker>(context);
-            //            });
-
-            //        config.SubscriptionEndpoint<OrderPaymentCompletedEvent>(
-            //            configuration["BrokerSettings:OrderSubscriptionName"], e => {
-            //                e.ConfigureConsumer<OrderNotificationBroker>(context);
-            //            });
-            //        config.DeployTopologyOnly = false;
-            //    });
-
-            //});
+                    config.DeployTopologyOnly = false;
+                });
+            
+            });
 
             services.AddScoped<ICustomerNotification, CustomerNotificationBroker>();
             services.AddScoped<IOrderNotification, OrderNotificationBroker>();

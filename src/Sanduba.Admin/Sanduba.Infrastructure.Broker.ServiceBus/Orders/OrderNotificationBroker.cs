@@ -10,11 +10,11 @@ namespace Sanduba.Infrastructure.Broker.ServiceBus.Orders
     [ExcludeFromCodeCoverage]
     public class OrderNotificationBroker(
         ILogger<OrderNotificationBroker> logger
-    ) : IConsumer<OrderPaymentCompletedEvent>, IOrderNotification
+    ) : IConsumer<OrderPreparationRequestedEvent>, IOrderNotification
     {
         private readonly ILogger<OrderNotificationBroker> _logger = logger;
 
-        public Task Consume(ConsumeContext<OrderPaymentCompletedEvent> context)
+        public Task Consume(ConsumeContext<OrderPreparationRequestedEvent> context)
         {
             _logger.LogInformation($"Message received id: {context.MessageId}");
 

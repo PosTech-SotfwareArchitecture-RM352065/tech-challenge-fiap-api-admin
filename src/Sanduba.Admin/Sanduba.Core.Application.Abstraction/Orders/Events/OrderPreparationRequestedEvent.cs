@@ -3,7 +3,7 @@ using System;
 
 namespace Sanduba.Core.Application.Abstraction.Orders.Events
 {
-    public record OrderPaymentCompletedEvent(
+    public record OrderPreparationRequestedEvent(
         Guid OrderId,
         int Code,
         Status Status,
