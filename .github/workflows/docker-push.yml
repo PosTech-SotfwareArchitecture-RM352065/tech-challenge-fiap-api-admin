@@ -63,8 +63,8 @@ jobs:
         with:
           appSourcePath: ${{ github.workspace }} 
           registryUrl: docker.io
-          registryUsername: ${{ secrets.DOCKERHUB_USERNAME }}
-          registryPassword: ${{ secrets.DOCKERHUB_TOKEN }}
+          registryUsername: ""
+          registryPassword: ""
           containerAppName: fiap-tech-challange-admin-app
           resourceGroup: fiap-tech-challenge-admin-group
           imageToBuild: cangelosilima/sanduba-admin-api:latest${{ env.TAG_SUFFIX }} 
