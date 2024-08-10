@@ -51,31 +51,16 @@ namespace Sanduba.Infrastructure.Persistence.SqlServer.Orders
             var query = _dbContext.Orders
                 .ToListAsync();
 
-            return _mapper.Map<List<Order>>(query);
+            return _mapper.Map<IEnumerable<Order>>(query);
         }
 
         public IEnumerable<Order> GetAllOpenOrders(CancellationToken cancellationToken = default)
         {
             var query = _dbContext.Orders
-                .Where(order => IsOpen(order.Status))
-                .ToListAsync();
+                .Where(order => order.Status == (int)Status.Payed)
+                .ToList();
 
-            return _mapper.Map<List<Order>>(query);
-        }
-
-        private bool IsOpen(int status)
-        {
-            switch (status)
-            {
-                case (int)Status.Accepted:
-                    return true;
-                    break;
-                case (int)Status.Payed:
-                    return true;
-                    break;
-                default:
-                    return false;
-            }
+            return _mapper.Map<IEnumerable<Order>>(query);
         }
 
         public void AcceptOrder(Guid id, DateTime acceptedAt)

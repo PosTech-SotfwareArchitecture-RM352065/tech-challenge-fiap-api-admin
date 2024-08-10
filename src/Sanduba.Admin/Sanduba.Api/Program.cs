@@ -31,17 +31,17 @@ namespace Sanduba.API
 
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-            builder.Services.AddHealthChecks();
+            //builder.Services.AddHealthChecks()
             //    .AddDatabaseHealthChecks(builder.Configuration)
             //    .AddBrokerHealthChecks(builder.Configuration);
 
-            //builder.Services.AddHealthChecksUI(options =>
-            //{
-            //    options.SetEvaluationTimeInSeconds(15);
-            //    options.MaximumHistoryEntriesPerEndpoint(60);
-            //    options.SetApiMaxActiveRequests(1);
+            builder.Services.AddHealthChecksUI(options =>
+            {
+                options.SetEvaluationTimeInSeconds(15);
+                options.MaximumHistoryEntriesPerEndpoint(60);
+                options.SetApiMaxActiveRequests(1);
 
-            //}).AddInMemoryStorage();
+            }).AddInMemoryStorage();
 
             builder.Services.AddControllers()
                 .ConfigureApiBehaviorOptions(options =>
@@ -128,8 +128,8 @@ namespace Sanduba.API
 
         private static IHealthChecksBuilder AddBrokerHealthChecks(this IHealthChecksBuilder builder, IConfiguration configuration)
         {
-            string connectionString = configuration.GetValue<string>("BrokerSettings:CustomerConnectionString") ?? string.Empty;
-            string topicName = configuration.GetValue<string>("BrokerSettings:CustomerTopicName") ?? string.Empty;
+            string connectionString = configuration.GetValue<string>("CustomerBrokerSettings:CustomerConnectionString") ?? string.Empty;
+            string topicName = configuration.GetValue<string>("CustomerBrokerSettings:CustomerTopicName") ?? string.Empty;
             builder.AddAzureServiceBusQueue(connectionString, topicName);
 
             return builder;

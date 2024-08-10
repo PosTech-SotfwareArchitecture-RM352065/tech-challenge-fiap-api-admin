@@ -2,5 +2,5 @@
 
 namespace Sanduba.Core.Application.Abstraction.Orders.ResponseModel
 {
-    public record UpdateOrderResponseModel(Guid RequestId);
+    public record UpdateOrderResponseModel(Guid OrderId);
 }

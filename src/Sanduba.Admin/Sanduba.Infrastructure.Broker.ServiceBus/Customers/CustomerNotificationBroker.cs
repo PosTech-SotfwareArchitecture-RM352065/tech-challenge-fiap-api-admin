@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Diagnostics.CodeAnalysis;
 using Sanduba.Core.Domain.Customers;
 using System.Threading;
+using MassTransit.DependencyInjection;
 
 namespace Sanduba.Infrastructure.Broker.ServiceBus.Customers
 {
@@ -14,12 +15,12 @@ namespace Sanduba.Infrastructure.Broker.ServiceBus.Customers
     public class CustomerNotificationBroker(
         ILogger<CustomerNotificationBroker> logger,
         ICustomerPersistence customerPersistence,
-        IPublishEndpoint publishClient
+        Bind<ICustomerBus, IPublishEndpoint> publishClient
     ) : IConsumer<InactivationRequestedEvent>, ICustomerNotification
     {
         private readonly ILogger<CustomerNotificationBroker> _logger = logger;
         private readonly ICustomerPersistence _customerPersistence = customerPersistence;
-        private readonly IPublishEndpoint _publishClient = publishClient;
+        private readonly IPublishEndpoint _publishClient = publishClient.Value;
 
         public Task Consume(ConsumeContext<InactivationRequestedEvent> context)
         {

@@ -23,15 +23,13 @@ namespace Sanduba.Infrastructure.Broker.ServiceBus.Configurations
         /// <returns>The same service collection.</returns>
         public static IServiceCollection AddServiceBusInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
-            var entryAssemblies = AppDomain.CurrentDomain.GetAssemblies();
-
-            services.AddMassTransit(options =>
+            services.AddMassTransit<ICustomerBus>(options =>
             {
                 options.AddConsumer<CustomerNotificationBroker>();
 
                 options.UsingAzureServiceBus((context, config) =>
                 {
-                    config.Host(configuration["CustomerBrokerSettings:ConnectionStrings"]);
+                    config.Host(configuration["CustomerBrokerSettings:ConnectionString"]);
 
                     config.SubscriptionEndpoint(
                         configuration["CustomerBrokerSettings:SubscriptionName"],
@@ -52,7 +50,7 @@ namespace Sanduba.Infrastructure.Broker.ServiceBus.Configurations
 
             });
 
-            services.AddMassTransit(options =>
+            services.AddMassTransit<IOrderBus>(options =>
             {
                 options.AddConsumer<OrderNotificationBroker>();
             
@@ -60,12 +58,17 @@ namespace Sanduba.Infrastructure.Broker.ServiceBus.Configurations
                 {
                     config.Host(configuration["OrderBrokerSettings:ConnectionString"]);
             
-                    config.SubscriptionEndpoint<InactivationRequestedEvent>(
-                        configuration["OrderBrokerSettings:OrderSubscriptionName"], e => {
-                            e.ConfigureConsumer<CustomerNotificationBroker>(context);
+                    config.SubscriptionEndpoint<OrderPreparationRequestedEvent>(
+                        configuration["OrderBrokerSettings:SubscriptionName"], e => {
+                            e.ConfigureConsumer<OrderNotificationBroker>(context);
                         });
 
-                    config.Message<InactivationRequestCompletedEvent>(x =>
+                    config.Message<OrderAcceptedEvent>(x =>
+                    {
+                        x.SetEntityName(configuration["OrderBrokerSettings:TopicName"]);
+                    });
+
+                    config.Message<OrderFinalizedEvent>(x =>
                     {
                         x.SetEntityName(configuration["OrderBrokerSettings:TopicName"]);
                     });

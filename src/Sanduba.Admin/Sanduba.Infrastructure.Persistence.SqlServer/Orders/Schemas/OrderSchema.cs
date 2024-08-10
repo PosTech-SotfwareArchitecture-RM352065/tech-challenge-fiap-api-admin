@@ -12,8 +12,6 @@ namespace Sanduba.Infrastructure.Persistence.SqlServer.Orders.Schemas
         [Required]
         public int Code { get; set; }
 
-        public Guid CustomerId { get; set; }
-
         [Required]
         public int Status { get; set; }
 
