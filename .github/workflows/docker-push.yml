@@ -67,6 +67,6 @@ jobs:
           registryPassword: ${{ secrets.DOCKERHUB_TOKEN }}
           containerAppName: fiap-tech-challange-admin-app
           resourceGroup: fiap-tech-challenge-admin-group
-          imageToBuild: ${{ secrets.DOCKERHUB_USERNAME }}/sanduba-admin-api:latest${{ env.TAG_SUFFIX }} 
+          imageToBuild: cangelosilima/sanduba-admin-api:latest${{ env.TAG_SUFFIX }} 
           _buildArgumentsKey_: |
             _buildArgumentsValues_
