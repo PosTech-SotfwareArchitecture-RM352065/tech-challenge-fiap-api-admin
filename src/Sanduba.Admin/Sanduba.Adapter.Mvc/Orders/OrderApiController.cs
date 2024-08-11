@@ -16,7 +16,7 @@ namespace Sanduba.Adapter.Mvc.Orders
 
         public override IActionResult FinalizeOrder(Guid requestModel)
         {
-            var responseModel = interactor.FinalizeOrder(requestModel);
+            var responseModel = interactor.ConcludeOrder(requestModel);
             return presenter.Present(responseModel);
         }
 

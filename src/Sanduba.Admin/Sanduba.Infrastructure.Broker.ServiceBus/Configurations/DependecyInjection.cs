@@ -34,7 +34,8 @@ namespace Sanduba.Infrastructure.Broker.ServiceBus.Configurations
                     config.SubscriptionEndpoint(
                         configuration["CustomerBrokerSettings:SubscriptionName"],
                         configuration["CustomerBrokerSettings:TopicName"],
-                        e => {
+                        e =>
+                        {
                             e.UseMessageRetry(r => r.Interval(2, 10));
                             e.ConfigureConsumer<CustomerNotificationBroker>(context);
                         });
@@ -52,31 +53,33 @@ namespace Sanduba.Infrastructure.Broker.ServiceBus.Configurations
             services.AddMassTransit<IOrderBus>(options =>
             {
                 options.AddConsumer<OrderNotificationBroker>();
-            
+
                 options.UsingAzureServiceBus((context, config) =>
                 {
                     config.Host(configuration["OrderBrokerSettings:ConnectionString"]);
-            
+
                     config.SubscriptionEndpoint(
                         configuration["OrderBrokerSettings:SubscriptionName"],
                         configuration["OrderBrokerSettings:TopicName"],
-                        e => {
+                        e =>
+                        {
+                            e.UseMessageRetry(r => r.Interval(2, 10));
                             e.ConfigureConsumer<OrderNotificationBroker>(context);
                         });
 
-                    config.Message<OrderAcceptedEvent>(x =>
+                    config.Message<OrderPreparationStartedEvent>(x =>
                     {
                         x.SetEntityName(configuration["OrderBrokerSettings:TopicName"]);
                     });
 
-                    config.Message<OrderFinalizedEvent>(x =>
+                    config.Message<OrderPreparationConcludedEvent>(x =>
                     {
                         x.SetEntityName(configuration["OrderBrokerSettings:TopicName"]);
                     });
 
                     config.DeployTopologyOnly = false;
                 });
-            
+
             });
 
             services.AddScoped<ICustomerNotification, CustomerNotificationBroker>();

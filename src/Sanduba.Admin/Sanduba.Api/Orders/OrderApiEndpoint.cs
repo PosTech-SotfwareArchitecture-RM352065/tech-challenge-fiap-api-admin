@@ -41,7 +41,7 @@ namespace Sanduba.API.Orders
         {
             if (request.Status == "ACCEPT")
                 return orderController.AcceptOrder(request.OrderId);
-            if (request.Status == "FINALIZE")
+            if (request.Status == "CONCLUDE")
                 return orderController.FinalizeOrder(request.OrderId);
             else
             {

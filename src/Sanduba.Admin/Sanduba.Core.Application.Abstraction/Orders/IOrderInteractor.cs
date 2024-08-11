@@ -10,6 +10,6 @@ namespace Sanduba.Core.Application.Abstraction.Orders
         public IEnumerable<GetOrderResponseModel> GetAllOrders();
         public IEnumerable<GetOrderResponseModel> GetAllOpenOrders();
         public UpdateOrderResponseModel AcceptOrder(Guid id);
-        public UpdateOrderResponseModel FinalizeOrder(Guid id);
+        public UpdateOrderResponseModel ConcludeOrder(Guid id);
     }
 }

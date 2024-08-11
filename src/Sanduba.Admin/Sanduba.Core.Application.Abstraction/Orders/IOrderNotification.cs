@@ -4,7 +4,7 @@ namespace Sanduba.Core.Application.Abstraction.Orders
 {
     public interface IOrderNotification
     {
-        public void AcceptOrder(OrderAcceptedEvent eventData);
-        public void FinalizeOrder(OrderFinalizedEvent eventData);
+        public void AcceptOrder(OrderPreparationStartedEvent eventData);
+        public void FinalizeOrder(OrderPreparationConcludedEvent eventData);
     }
 }

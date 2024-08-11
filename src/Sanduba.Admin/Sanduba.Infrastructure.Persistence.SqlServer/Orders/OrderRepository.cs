@@ -57,7 +57,7 @@ namespace Sanduba.Infrastructure.Persistence.SqlServer.Orders
         public IEnumerable<Order> GetAllOpenOrders(CancellationToken cancellationToken = default)
         {
             var query = _dbContext.Orders
-                .Where(order => order.Status == (int)Status.Payed)
+                .Where(order => order.Status == (int)Status.Payed || order.Status == (int)Status.Accepted)
                 .OrderBy(order => order.PayedAt)
                 .ToList();
 
@@ -76,7 +76,7 @@ namespace Sanduba.Infrastructure.Persistence.SqlServer.Orders
             _dbContext.SaveChanges();
         }
 
-        public void FinalizeOrder(Guid id, DateTime finalizeAt)
+        public void ConcludeOrder(Guid id, DateTime finalizeAt)
         {
             _dbContext.Orders
                 .Where(order => order.Id == id)
@@ -84,7 +84,7 @@ namespace Sanduba.Infrastructure.Persistence.SqlServer.Orders
                     .SetProperty(o => o.AcceptedAt, finalizeAt)
                     .SetProperty(o => o.Status, (int)Status.Ready)
                 );
-            
+
             _dbContext.SaveChanges();
         }
     }

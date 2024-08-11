@@ -33,7 +33,7 @@ namespace Sanduba.Infrastructure.Persistence.SqlServer.Configurations
             services.AddScoped<ICustomerPersistence, CustomerRepository>();
             services.AddScoped<IOrderPersistence, OrderRepository>();
             services.AddScoped<IProductPersistence, ProductRepository>();
-            
+
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             return services;

@@ -10,6 +10,6 @@ namespace Sanduba.Core.Application.Abstraction.Orders
     {
         public IEnumerable<Order> GetAllOpenOrders(CancellationToken cancellationToken = default);
         public void AcceptOrder(Guid id, DateTime acceptedAt);
-        public void FinalizeOrder(Guid id, DateTime finalizeAt);
+        public void ConcludeOrder(Guid id, DateTime concludedAt);
     }
 }

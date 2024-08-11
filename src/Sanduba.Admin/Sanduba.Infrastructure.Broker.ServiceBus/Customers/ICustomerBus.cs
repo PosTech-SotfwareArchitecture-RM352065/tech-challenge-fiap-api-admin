@@ -2,5 +2,5 @@
 
 namespace Sanduba.Infrastructure.Broker.ServiceBus.Customers
 {
-    public interface ICustomerBus : IBus {}
+    public interface ICustomerBus : IBus { }
 }

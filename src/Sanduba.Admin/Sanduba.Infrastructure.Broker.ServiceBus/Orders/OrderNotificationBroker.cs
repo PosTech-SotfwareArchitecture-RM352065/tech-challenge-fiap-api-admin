@@ -28,7 +28,7 @@ namespace Sanduba.Infrastructure.Broker.ServiceBus.Orders
                 _logger.LogInformation($"Message received id: {context.MessageId}");
 
                 orderPersistence.SaveAsync(new Order(context.Message.OrderId)
-                { 
+                {
                     Code = context.Message.Code,
                     PaymentId = context.Message.PaymentId,
                     Status = context.Message.Status,
@@ -38,7 +38,7 @@ namespace Sanduba.Infrastructure.Broker.ServiceBus.Orders
 
                 return Task.CompletedTask;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex, $"Error consuming message id: {context.MessageId}");
 
@@ -47,14 +47,14 @@ namespace Sanduba.Infrastructure.Broker.ServiceBus.Orders
 
         }
 
-        public void AcceptOrder(OrderAcceptedEvent eventData)
+        public void AcceptOrder(OrderPreparationStartedEvent eventData)
         {
-            _publishEndpoint.Publish<OrderAcceptedEvent>(eventData);
+            _publishEndpoint.Publish<OrderPreparationStartedEvent>(eventData);
         }
 
-        public void FinalizeOrder(OrderFinalizedEvent eventData)
+        public void FinalizeOrder(OrderPreparationConcludedEvent eventData)
         {
-            _publishEndpoint.Publish<OrderFinalizedEvent>(eventData);
+            _publishEndpoint.Publish<OrderPreparationConcludedEvent>(eventData);
         }
     }
 }

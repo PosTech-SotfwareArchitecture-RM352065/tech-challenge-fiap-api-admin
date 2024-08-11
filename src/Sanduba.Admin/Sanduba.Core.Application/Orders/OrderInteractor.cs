@@ -68,17 +68,19 @@ namespace Sanduba.Core.Application.Orders
             var acceptedAt = DateTime.UtcNow;
 
             _orderPersistence.AcceptOrder(requestModel, acceptedAt);
-            _orderNotification.AcceptOrder(new OrderAcceptedEvent(requestModel, acceptedAt));
+            _orderNotification.AcceptOrder(
+                new OrderPreparationStartedEvent(requestModel, acceptedAt.Add(TimeSpan.FromMinutes(10)))
+            );
 
             return new UpdateOrderResponseModel(requestModel);
         }
 
-        public UpdateOrderResponseModel FinalizeOrder(Guid requestModel)
+        public UpdateOrderResponseModel ConcludeOrder(Guid requestModel)
         {
-            var finalizedAt = DateTime.UtcNow;
+            var concludedAt = DateTime.UtcNow;
 
-            _orderPersistence.FinalizeOrder(requestModel, finalizedAt);
-            _orderNotification.FinalizeOrder(new OrderFinalizedEvent(requestModel, finalizedAt));
+            _orderPersistence.ConcludeOrder(requestModel, concludedAt);
+            _orderNotification.FinalizeOrder(new OrderPreparationConcludedEvent(requestModel, concludedAt));
 
             return new UpdateOrderResponseModel(requestModel);
         }
