@@ -9,7 +9,7 @@ ZAP is supported by the [Crash Override Open Source Fellowship](https://crashove
 | --- | --- |
 | High | 0 |
 | Medium | 1 |
-| Low | 2 |
+| Low | 1 |
 | Informational | 1 |
 
 
@@ -19,8 +19,7 @@ ZAP is supported by the [Crash Override Open Source Fellowship](https://crashove
 
 | Name | Risk Level | Number of Instances |
 | --- | --- | --- |
-| Content Security Policy (CSP) Header Not Set | Medium | 4 |
-| Permissions Policy Header Not Set | Low | 4 |
+| Proxy Disclosure | Medium | 4 |
 | Strict-Transport-Security Header Not Set | Low | 4 |
 | Storable and Cacheable Content | Informational | 4 |
 
@@ -31,123 +30,82 @@ ZAP is supported by the [Crash Override Open Source Fellowship](https://crashove
 
 
 
-### [ Content Security Policy (CSP) Header Not Set ](https://www.zaproxy.org/docs/alerts/10038/)
+### [ Proxy Disclosure ](https://www.zaproxy.org/docs/alerts/40025/)
 
 
 
-##### Medium (High)
+##### Medium (Medium)
 
 ### Description
 
-Content Security Policy (CSP) is an added layer of security that helps to detect and mitigate certain types of attacks, including Cross Site Scripting (XSS) and data injection attacks. These attacks are used for everything from data theft to site defacement or distribution of malware. CSP provides a set of standard HTTP headers that allow website owners to declare approved sources of content that browsers should be allowed to load on that page — covered types are JavaScript, CSS, HTML frames, fonts, images and embeddable objects such as Java applets, ActiveX, audio and video files.
+1 proxy server(s) were detected or fingerprinted. This information helps a potential attacker to determine
+- A list of targets for an attack against the application.
+ - Potential vulnerabilities on the proxy servers that service the application.
+ - The presence or absence of any proxy-based components that might cause attacks against the application to be detected, prevented, or mitigated.
 
-* URL: https://fiap-tech-challange-admin-app.wittyflower-91b7ab84.eastus2.azurecontainerapps.io
+* URL: https://fiap-tech-challange-admin-app.salmondesert-5814bf7f.eastus2.azurecontainerapps.io
   * Method: `GET`
   * Parameter: ``
-  * Attack: ``
+  * Attack: `TRACE, OPTIONS methods with 'Max-Forwards' header. TRACK method.`
   * Evidence: ``
-  * Other Info: ``
-* URL: https://fiap-tech-challange-admin-app.wittyflower-91b7ab84.eastus2.azurecontainerapps.io/
+  * Other Info: `Using the TRACE, OPTIONS, and TRACK methods, the following proxy servers have been identified between ZAP and the application/web server:
+- Unknown
+The following web/application server has been identified:
+- Kestrel
+`
+* URL: https://fiap-tech-challange-admin-app.salmondesert-5814bf7f.eastus2.azurecontainerapps.io/
   * Method: `GET`
   * Parameter: ``
-  * Attack: ``
+  * Attack: `TRACE, OPTIONS methods with 'Max-Forwards' header. TRACK method.`
   * Evidence: ``
-  * Other Info: ``
-* URL: https://fiap-tech-challange-admin-app.wittyflower-91b7ab84.eastus2.azurecontainerapps.io/robots.txt
+  * Other Info: `Using the TRACE, OPTIONS, and TRACK methods, the following proxy servers have been identified between ZAP and the application/web server:
+- Unknown
+The following web/application server has been identified:
+- Kestrel
+`
+* URL: https://fiap-tech-challange-admin-app.salmondesert-5814bf7f.eastus2.azurecontainerapps.io/robots.txt
   * Method: `GET`
   * Parameter: ``
-  * Attack: ``
+  * Attack: `TRACE, OPTIONS methods with 'Max-Forwards' header. TRACK method.`
   * Evidence: ``
-  * Other Info: ``
-* URL: https://fiap-tech-challange-admin-app.wittyflower-91b7ab84.eastus2.azurecontainerapps.io/sitemap.xml
+  * Other Info: `Using the TRACE, OPTIONS, and TRACK methods, the following proxy servers have been identified between ZAP and the application/web server:
+- Unknown
+The following web/application server has been identified:
+- Kestrel
+`
+* URL: https://fiap-tech-challange-admin-app.salmondesert-5814bf7f.eastus2.azurecontainerapps.io/sitemap.xml
   * Method: `GET`
   * Parameter: ``
-  * Attack: ``
+  * Attack: `TRACE, OPTIONS methods with 'Max-Forwards' header. TRACK method.`
   * Evidence: ``
-  * Other Info: ``
+  * Other Info: `Using the TRACE, OPTIONS, and TRACK methods, the following proxy servers have been identified between ZAP and the application/web server:
+- Unknown
+The following web/application server has been identified:
+- Kestrel
+`
 
 Instances: 4
 
 ### Solution
 
-Ensure that your web server, application server, load balancer, etc. is configured to set the Content-Security-Policy header.
+Disable the 'TRACE' method on the proxy servers, as well as the origin web/application server.
+Disable the 'OPTIONS' method on the proxy servers, as well as the origin web/application server, if it is not required for other purposes, such as 'CORS' (Cross Origin Resource Sharing).
+Configure the web and application servers with custom error pages, to prevent 'fingerprintable' product-specific error pages being leaked to the user in the event of HTTP errors, such as 'TRACK' requests for non-existent pages.
+Configure all proxies, application servers, and web servers to prevent disclosure of the technology and version information in the 'Server' and 'X-Powered-By' HTTP response headers.
+
 
 ### Reference
 
 
-* [ https://developer.mozilla.org/en-US/docs/Web/Security/CSP/Introducing_Content_Security_Policy ](https://developer.mozilla.org/en-US/docs/Web/Security/CSP/Introducing_Content_Security_Policy)
-* [ https://cheatsheetseries.owasp.org/cheatsheets/Content_Security_Policy_Cheat_Sheet.html ](https://cheatsheetseries.owasp.org/cheatsheets/Content_Security_Policy_Cheat_Sheet.html)
-* [ https://www.w3.org/TR/CSP/ ](https://www.w3.org/TR/CSP/)
-* [ https://w3c.github.io/webappsec-csp/ ](https://w3c.github.io/webappsec-csp/)
-* [ https://web.dev/articles/csp ](https://web.dev/articles/csp)
-* [ https://caniuse.com/#feat=contentsecuritypolicy ](https://caniuse.com/#feat=contentsecuritypolicy)
-* [ https://content-security-policy.com/ ](https://content-security-policy.com/)
+* [ https://tools.ietf.org/html/rfc7231#section-5.1.2 ](https://tools.ietf.org/html/rfc7231#section-5.1.2)
 
 
-#### CWE Id: [ 693 ](https://cwe.mitre.org/data/definitions/693.html)
+#### CWE Id: [ 200 ](https://cwe.mitre.org/data/definitions/200.html)
 
 
-#### WASC Id: 15
+#### WASC Id: 45
 
-#### Source ID: 3
-
-### [ Permissions Policy Header Not Set ](https://www.zaproxy.org/docs/alerts/10063/)
-
-
-
-##### Low (Medium)
-
-### Description
-
-Permissions Policy Header is an added layer of security that helps to restrict from unauthorized access or usage of browser/client features by web resources. This policy ensures the user privacy by limiting or specifying the features of the browsers can be used by the web resources. Permissions Policy provides a set of standard HTTP headers that allow website owners to limit which features of browsers can be used by the page such as camera, microphone, location, full screen etc.
-
-* URL: https://fiap-tech-challange-admin-app.wittyflower-91b7ab84.eastus2.azurecontainerapps.io
-  * Method: `GET`
-  * Parameter: ``
-  * Attack: ``
-  * Evidence: ``
-  * Other Info: ``
-* URL: https://fiap-tech-challange-admin-app.wittyflower-91b7ab84.eastus2.azurecontainerapps.io/
-  * Method: `GET`
-  * Parameter: ``
-  * Attack: ``
-  * Evidence: ``
-  * Other Info: ``
-* URL: https://fiap-tech-challange-admin-app.wittyflower-91b7ab84.eastus2.azurecontainerapps.io/robots.txt
-  * Method: `GET`
-  * Parameter: ``
-  * Attack: ``
-  * Evidence: ``
-  * Other Info: ``
-* URL: https://fiap-tech-challange-admin-app.wittyflower-91b7ab84.eastus2.azurecontainerapps.io/sitemap.xml
-  * Method: `GET`
-  * Parameter: ``
-  * Attack: ``
-  * Evidence: ``
-  * Other Info: ``
-
-Instances: 4
-
-### Solution
-
-Ensure that your web server, application server, load balancer, etc. is configured to set the Permissions-Policy header.
-
-### Reference
-
-
-* [ https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Permissions-Policy ](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Permissions-Policy)
-* [ https://developer.chrome.com/blog/feature-policy/ ](https://developer.chrome.com/blog/feature-policy/)
-* [ https://scotthelme.co.uk/a-new-security-header-feature-policy/ ](https://scotthelme.co.uk/a-new-security-header-feature-policy/)
-* [ https://w3c.github.io/webappsec-feature-policy/ ](https://w3c.github.io/webappsec-feature-policy/)
-* [ https://www.smashingmagazine.com/2018/12/feature-policy/ ](https://www.smashingmagazine.com/2018/12/feature-policy/)
-
-
-#### CWE Id: [ 693 ](https://cwe.mitre.org/data/definitions/693.html)
-
-
-#### WASC Id: 15
-
-#### Source ID: 3
+#### Source ID: 1
 
 ### [ Strict-Transport-Security Header Not Set ](https://www.zaproxy.org/docs/alerts/10035/)
 
@@ -159,25 +117,25 @@ Ensure that your web server, application server, load balancer, etc. is configur
 
 HTTP Strict Transport Security (HSTS) is a web security policy mechanism whereby a web server declares that complying user agents (such as a web browser) are to interact with it using only secure HTTPS connections (i.e. HTTP layered over TLS/SSL). HSTS is an IETF standards track protocol and is specified in RFC 6797.
 
-* URL: https://fiap-tech-challange-admin-app.wittyflower-91b7ab84.eastus2.azurecontainerapps.io
+* URL: https://fiap-tech-challange-admin-app.salmondesert-5814bf7f.eastus2.azurecontainerapps.io
   * Method: `GET`
   * Parameter: ``
   * Attack: ``
   * Evidence: ``
   * Other Info: ``
-* URL: https://fiap-tech-challange-admin-app.wittyflower-91b7ab84.eastus2.azurecontainerapps.io/
+* URL: https://fiap-tech-challange-admin-app.salmondesert-5814bf7f.eastus2.azurecontainerapps.io/
   * Method: `GET`
   * Parameter: ``
   * Attack: ``
   * Evidence: ``
   * Other Info: ``
-* URL: https://fiap-tech-challange-admin-app.wittyflower-91b7ab84.eastus2.azurecontainerapps.io/robots.txt
+* URL: https://fiap-tech-challange-admin-app.salmondesert-5814bf7f.eastus2.azurecontainerapps.io/robots.txt
   * Method: `GET`
   * Parameter: ``
   * Attack: ``
   * Evidence: ``
   * Other Info: ``
-* URL: https://fiap-tech-challange-admin-app.wittyflower-91b7ab84.eastus2.azurecontainerapps.io/sitemap.xml
+* URL: https://fiap-tech-challange-admin-app.salmondesert-5814bf7f.eastus2.azurecontainerapps.io/sitemap.xml
   * Method: `GET`
   * Parameter: ``
   * Attack: ``
@@ -217,25 +175,25 @@ Ensure that your web server, application server, load balancer, etc. is configur
 
 The response contents are storable by caching components such as proxy servers, and may be retrieved directly from the cache, rather than from the origin server by the caching servers, in response to similar requests from other users. If the response data is sensitive, personal or user-specific, this may result in sensitive information being leaked. In some cases, this may even result in a user gaining complete control of the session of another user, depending on the configuration of the caching components in use in their environment. This is primarily an issue where "shared" caching servers such as "proxy" caches are configured on the local network. This configuration is typically found in corporate or educational environments, for instance.
 
-* URL: https://fiap-tech-challange-admin-app.wittyflower-91b7ab84.eastus2.azurecontainerapps.io
+* URL: https://fiap-tech-challange-admin-app.salmondesert-5814bf7f.eastus2.azurecontainerapps.io
   * Method: `GET`
   * Parameter: ``
   * Attack: ``
   * Evidence: ``
   * Other Info: `In the absence of an explicitly specified caching lifetime directive in the response, a liberal lifetime heuristic of 1 year was assumed. This is permitted by rfc7234.`
-* URL: https://fiap-tech-challange-admin-app.wittyflower-91b7ab84.eastus2.azurecontainerapps.io/
+* URL: https://fiap-tech-challange-admin-app.salmondesert-5814bf7f.eastus2.azurecontainerapps.io/
   * Method: `GET`
   * Parameter: ``
   * Attack: ``
   * Evidence: ``
   * Other Info: `In the absence of an explicitly specified caching lifetime directive in the response, a liberal lifetime heuristic of 1 year was assumed. This is permitted by rfc7234.`
-* URL: https://fiap-tech-challange-admin-app.wittyflower-91b7ab84.eastus2.azurecontainerapps.io/robots.txt
+* URL: https://fiap-tech-challange-admin-app.salmondesert-5814bf7f.eastus2.azurecontainerapps.io/robots.txt
   * Method: `GET`
   * Parameter: ``
   * Attack: ``
   * Evidence: ``
   * Other Info: `In the absence of an explicitly specified caching lifetime directive in the response, a liberal lifetime heuristic of 1 year was assumed. This is permitted by rfc7234.`
-* URL: https://fiap-tech-challange-admin-app.wittyflower-91b7ab84.eastus2.azurecontainerapps.io/sitemap.xml
+* URL: https://fiap-tech-challange-admin-app.salmondesert-5814bf7f.eastus2.azurecontainerapps.io/sitemap.xml
   * Method: `GET`
   * Parameter: ``
   * Attack: ``
