@@ -29,7 +29,7 @@ namespace Sanduba.API.Orders
             catch (Exception ex)
             {
                 _logger.LogError($"Error while retrivng id from query string: {Request.Query}");
-                return BadRequest("Código inválido!");
+                return BadRequest("Erro durante a consulta de pedidos!");
             }
 
         }

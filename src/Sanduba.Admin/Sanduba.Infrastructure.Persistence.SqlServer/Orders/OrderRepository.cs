@@ -58,6 +58,7 @@ namespace Sanduba.Infrastructure.Persistence.SqlServer.Orders
         {
             var query = _dbContext.Orders
                 .Where(order => order.Status == (int)Status.Payed)
+                .OrderBy(order => order.PayedAt)
                 .ToList();
 
             return _mapper.Map<IEnumerable<Order>>(query);
@@ -67,20 +68,24 @@ namespace Sanduba.Infrastructure.Persistence.SqlServer.Orders
         {
             _dbContext.Orders
                 .Where(order => order.Id == id)
-                .ExecuteUpdateAsync(order => order
+                .ExecuteUpdate(order => order
                     .SetProperty(o => o.AcceptedAt, acceptedAt)
                     .SetProperty(o => o.Status, (int)Status.Accepted)
                 );
+
+            _dbContext.SaveChanges();
         }
 
         public void FinalizeOrder(Guid id, DateTime finalizeAt)
         {
             _dbContext.Orders
                 .Where(order => order.Id == id)
-                .ExecuteUpdateAsync(order => order
+                .ExecuteUpdate(order => order
                     .SetProperty(o => o.AcceptedAt, finalizeAt)
                     .SetProperty(o => o.Status, (int)Status.Ready)
                 );
+            
+            _dbContext.SaveChanges();
         }
     }
 }

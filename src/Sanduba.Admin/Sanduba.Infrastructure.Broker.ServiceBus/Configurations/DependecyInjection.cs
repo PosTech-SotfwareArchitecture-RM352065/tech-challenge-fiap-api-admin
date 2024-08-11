@@ -34,8 +34,7 @@ namespace Sanduba.Infrastructure.Broker.ServiceBus.Configurations
                     config.SubscriptionEndpoint(
                         configuration["CustomerBrokerSettings:SubscriptionName"],
                         configuration["CustomerBrokerSettings:TopicName"],
-                        e =>
-                        {
+                        e => {
                             e.UseMessageRetry(r => r.Interval(2, 10));
                             e.ConfigureConsumer<CustomerNotificationBroker>(context);
                         });
@@ -58,8 +57,10 @@ namespace Sanduba.Infrastructure.Broker.ServiceBus.Configurations
                 {
                     config.Host(configuration["OrderBrokerSettings:ConnectionString"]);
             
-                    config.SubscriptionEndpoint<OrderPreparationRequestedEvent>(
-                        configuration["OrderBrokerSettings:SubscriptionName"], e => {
+                    config.SubscriptionEndpoint(
+                        configuration["OrderBrokerSettings:SubscriptionName"],
+                        configuration["OrderBrokerSettings:TopicName"],
+                        e => {
                             e.ConfigureConsumer<OrderNotificationBroker>(context);
                         });
 

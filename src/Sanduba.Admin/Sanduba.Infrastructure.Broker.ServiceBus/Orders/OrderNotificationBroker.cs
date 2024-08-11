@@ -27,14 +27,16 @@ namespace Sanduba.Infrastructure.Broker.ServiceBus.Orders
             {
                 _logger.LogInformation($"Message received id: {context.MessageId}");
 
-                return orderPersistence.SaveAsync(new Order(context.Message.OrderId)
+                orderPersistence.SaveAsync(new Order(context.Message.OrderId)
                 { 
                     Code = context.Message.Code,
                     PaymentId = context.Message.PaymentId,
                     Status = context.Message.Status,
                     TotalAmount = context.Message.TotalAmount,
                     PayedAt = context.Message.PayedAt
-                });
+                }).Wait();
+
+                return Task.CompletedTask;
             }
             catch(Exception ex)
             {
